@@ -16,7 +16,7 @@ public class RoomController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        List<Room> allRoom = roomService.getAll();
+        List<Room> allRoom = roomService.findByStatusNot(Room.statusEnum.Delete.value);
         model.addAttribute("allRoom", allRoom);
         return "index";
     }

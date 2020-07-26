@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{adminlayout/main_layout}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Simple Tables</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <a th:href="@{/admin/add}" class="btn btn-block btn-primary" style="color: white">Add new room</a>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Responsive Hover Table</h3>
+
+                            <div class="card-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-default"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover text-nowrap">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Area</th>
+                                    <th>Image</th>
+                                    <th>Description</th>
+                                    <th>Price per night</th>
+                                    <th>Price per month</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="room : ${allRoom}">
+                                        <td th:text="${room.getId()}">183</td>
+                                        <td th:text="${room.getName()}">John Doe</td>
+                                        <td th:text="${room.getArea() + ' m2'}">100</td>
+                                        <td >
+                                            <img th:src="${room.getPicture()}" width="150" height="80" alt="Room"/>
+                                        </td>
+                                        <td th:text="${room.getDescription()}">Good</td>
+                                        <td th:text="${room.getPriceDay()}">100</td>
+                                        <td th:text="${room.getPriceMonth()}">100</td>
+                                        <td th:text="${T(nguyentv.room.entity.Room.statusEnum).values()[room.getStatus()]}">Active</td>
+                                        <td>
+<!--                                            <a th:href="@{/admin/detail}" class="btn btn-app">-->
+<!--                                                <i class="fas fa-info"></i>View-->
+<!--                                            </a>-->
+                                            <a th:href="@{/admin/edit?id={id}(id=${room.id})}" class="btn btn-app">
+                                                <i class="fas fa-edit"></i>Edit
+                                            </a>
+                                            <a th:href="@{/admin/delete?id={id}(id=${room.id})}" class="btn btn-app">
+                                                <i class="fas fa-trash-alt"></i>Delete
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+</body>
+</html>

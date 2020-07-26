@@ -3,15 +3,16 @@ package nguyentv.room.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "room")
 public class Room {
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name")
@@ -31,6 +32,9 @@ public class Room {
 
     @Column(name = "price_month")
     private Double priceMonth;
+
+    @Column(name = "status")
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -86,6 +90,22 @@ public class Room {
 
     public void setPriceMonth(Double priceMonth) {
         this.priceMonth = priceMonth;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public enum statusEnum{
+        Delete(0), Active(1), NonActive(2);
+        public int value;
+        private statusEnum(int value){
+            this.value = value;
+        }
     }
 
 }
