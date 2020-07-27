@@ -3,6 +3,8 @@ package nguyentv.room.service;
 import nguyentv.room.entity.Room;
 import nguyentv.room.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +36,13 @@ public class RoomServiceImp implements RoomService{
     }
 
     @Override
-    public List<Room> findByStatusNot(Integer status) {
-        return roomRepository.findByStatusNot(Room.statusEnum.Delete.value);
+    public Page<Room> findByStatusNot(Pageable pageable, Integer status) {
+        return roomRepository.findByStatusNot(pageable, Room.statusEnum.Delete.value);
+    }
+
+    @Override
+    public Page<Room> findByStatus(Pageable pageable, Integer status) {
+        return roomRepository.findByStatus(pageable, status);
     }
 
 

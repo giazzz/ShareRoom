@@ -1,10 +1,18 @@
 package nguyentv.room.controller;
 
 import nguyentv.room.dto.RoomDTO;
+import nguyentv.room.entity.Role;
 import nguyentv.room.entity.Room;
 import nguyentv.room.entity.RoomValidator;
+import nguyentv.room.entity.User;
 import nguyentv.room.service.RoomService;
+import nguyentv.room.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,16 +20,35 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 public class AdminController {
     @Autowired
     RoomService roomService;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @RequestMapping(value = "/admin")
     public String AdminHome(){
+//        User u = new User();
+//        u.setEmail("user@gmail.com");
+//        u.setPassword(passwordEncoder.encode("123456"));
+//
+//        Set<Role> _roles = new HashSet<>();
+//        Role r = new Role();
+//        r.setName("MEMBER");
+//        _roles.add(r);
+//        u.setRoles(_roles);
+//        userService.saveUser(u);
+
         return "admin/index";
     }
 
@@ -31,8 +58,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/list")
-    public String ListRoom(Model model){
-        List<Room> allRoom = roomService.findByStatusNot(Room.statusEnum.Delete.value);
+    public String ListRoom(@PageableDefault(size = 6) Pageable pageable, Model model){
+//        List<Room> allRoom = roomService.findByStatusNot(Room.statusEnum.Delete.value);
+
+        Page<Room> allRoom = roomService.findByStatusNot(pageable, Room.statusEnum.Delete.value);
         model.addAttribute("allRoom", allRoom);
         return "admin/list_room";
     }
